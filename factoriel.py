@@ -20,8 +20,8 @@ class Lance_missiles_antisurface(Weapon):
             self._ammunition = self._ammunition-1
             else :
                 print('NoAmmunitionError')
-         else : 
-            prin("OutOfRangeError")
+        else : 
+            print("OutOfRangeError")
 
 
 class Lance_missiles_antiair(Weapon):
