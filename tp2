@@ -19,7 +19,7 @@ class Vessel:
         if self._max_hits!=0:
             self.weapon.fire_at(x,y,z)
         else:
-            raise DestroyedError
+            raise DestroyedError 
         if sqrt(x**2+y**2+z**2)> self.range:
             self._ammunition = self._ammunition - 1
             raise OutOfRangeError
