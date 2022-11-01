@@ -1,10 +1,10 @@
 from math import sqrt
 
-from main import Weapon
-from main import Lance_missiles_antisurface
-from main import Lance_missiles_antiair
-from main import Lance_Torpilles
-from main import OutOfRangeError
+from TP1 import Weapon
+from TP1 import Lance_missiles_antisurface
+from TP1 import Lance_missiles_antiair
+from TP1 import Lance_Torpilles
+from TP1 import OutOfRangeError
 
 class DestroyedError(Exception):
     pass
@@ -24,13 +24,13 @@ class Vessel:
             raise OutOfRangeError
 
     def go_to(self,x,y,z):
-        self.coordinates=(x,y,z)
+        self._coordinates=(x,y,z)
     def get_coordinates(self):
-        return self.coordinates
+        return self._coordinates
 
 
 class Cruiser(Vessel):
-    def __init__(self, coordinates: tuple, max_hits: int,weapon:Weapon):
+    def __init__(self, coordinates: tuple):
         super().__init__(coordinates, 6, Lance_missiles_antiair)
     def go_to(self,x,y,z):
         if z==0:
@@ -38,16 +38,15 @@ class Cruiser(Vessel):
 
 
 class Submarine(Vessel):
-    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+    def __init__(self, coordinates: tuple):
         super().__init__(coordinates, 2, Lance_Torpilles)
-
     def go_to(self, x, y, z):
         if z == 0 or z==-1:
             super().go_to(x, y, z)
 
 
 class Fregate(Vessel):
-    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+    def __init__(self, coordinates: tuple):
         super().__init__(coordinates, 5, Lance_missiles_antisurface)
 
     def go_to(self, x, y, z):
@@ -55,7 +54,7 @@ class Fregate(Vessel):
             super().go_to(x, y, z)
 
 class Destroyer(Vessel):
-    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+    def __init__(self, coordinates: tuple):
         super().__init__(coordinates, 4, Lance_Torpilles)
 
     def go_to(self, x, y, z):
@@ -63,16 +62,18 @@ class Destroyer(Vessel):
             super().go_to(x, y, z)
 
 class Aircraft(Vessel):
-    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+    def __init__(self, coordinates: tuple):
         super().__init__(coordinates, 1, Lance_missiles_antisurface)
+
 
     def go_to(self, x, y, z):
         if z == 1 :
             super().go_to(x, y, z)
 
 class espace_joueur():
-    def __init__(self,x,y,z,vaisseaux):
-        self._x=x
+    def __init__(self,x,y,z):
+        if x>=0 and x<=100:
+            self._x=x
         if y>=0 and y<=100:
             self._y=y
         if z==-1 or z==0 or z==1:
@@ -81,22 +82,36 @@ class espace_joueur():
 
     def ajouter_vaisseau(self,vessel):
         position_vaisseau=vessel.get_coordinates()
-
         somme_coups=0
-        for i in self.vaisseaux:
+        if position_vaisseau[0]>100 or position_vaisseau[0]<0 or position_vaisseau[1]>100 or position_vaisseau[1]<0 or position_vaisseau[2]>1 or position_vaisseau[2]<-1:
+            return False
+        for i in self._vaisseaux:
             somme_coups= somme_coups+ i._max_hits
-
-        for i in self.vaisseaux:
-
-            if i.get_coordinates!=position_vaisseau and somme_coups<=22:
-                self.vaisseaux.append(vessel)
+        for i in self._vaisseaux:
+            if i.get_coordinates() == position_vaisseau or somme_coups > 22 :
+                return False
+        self._vaisseaux.append(vessel)
     def recevoir(self,x,y,z):
-        for i in self.vaisseaux:
+        for i in self._vaisseaux:
             if (x,y,z)== i.get_coordinates():
                 return True
         return False
 
-vaisseau1=Cruiser((5,5,0))
-champ_bataille_1=espace_joueur(10,10,1)
-champ_bataille_1.ajouter_vaisseau(vaisseau1)
-print(champ_bataille_1.vaisseaux)
+vaisseau1=Cruiser((120,99,4))
+vaisseau2=Fregate((122,105,4))
+vaisseau3=Cruiser((6,5,0))
+vaisseau4=Aircraft((9,5,0))
+vaisseau5=Cruiser((9,2,0))
+
+espace1=espace_joueur(100,100,0)
+
+espace1.ajouter_vaisseau(vaisseau1)
+espace1.ajouter_vaisseau(vaisseau2)
+espace1.ajouter_vaisseau(vaisseau3)
+espace1.ajouter_vaisseau(vaisseau4)
+espace1.ajouter_vaisseau(vaisseau5)
+
+print(espace1.recevoir(6,5,0))
+print(espace1.recevoir(6,1,0))
+print(espace1._vaisseaux)
+
