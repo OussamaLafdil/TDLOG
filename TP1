@@ -66,3 +66,4 @@ arme1.fire_at(1,4,0)
 arme1.fire_at(1,4,0)
 
 print(arme1._ammunition)
+print(arme1._ammunition)
