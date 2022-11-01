@@ -44,6 +44,7 @@ class Lance_missiles_antiair(Weapon):
         else:
             raise OutOfRangeError
 
+
 class Lance_Torpilles(Weapon):
     def __init__(self):
         self._ammunition= 15
