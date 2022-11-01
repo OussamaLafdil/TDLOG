@@ -52,7 +52,7 @@ class Lance_Torpilles(Weapon):
             else :
                 print('NoAmmunitionError')
         else:
-            print('OutOfRangeError')
+            print('OutOfRangeError') 
 
 arme1=Lance_missiles_antiair()
 arme1.fire_at(1,4,5)
