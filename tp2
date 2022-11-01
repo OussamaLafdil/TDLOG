@@ -1,0 +1,102 @@
+from math import sqrt
+
+from main import Weapon
+from main import Lance_missiles_antisurface
+from main import Lance_missiles_antiair
+from main import Lance_Torpilles
+from main import OutOfRangeError
+
+class DestroyedError(Exception):
+    pass
+
+class Vessel:
+    def __init__(self, coordinates: tuple, max_hits: int,weapon:Weapon):
+        self._coordinates=coordinates
+        self._max_hits=max_hits
+        self._weapon=Weapon
+    def fire_at(self, x: int, y: int, z: int):
+        if self._max_hits!=0:
+            self.weapon.fire_at(x,y,z)
+        else:
+            raise DestroyedError
+        if sqrt(x**2+y**2+z**2)> self.range:
+            self._ammunition = self._ammunition - 1
+            raise OutOfRangeError
+
+    def go_to(self,x,y,z):
+        self.coordinates=(x,y,z)
+    def get_coordinates(self):
+        return self.coordinates
+
+
+class Cruiser(Vessel):
+    def __init__(self, coordinates: tuple, max_hits: int,weapon:Weapon):
+        super().__init__(coordinates, 6, Lance_missiles_antiair)
+    def go_to(self,x,y,z):
+        if z==0:
+            super().go_to(x,y,z)
+
+
+class Submarine(Vessel):
+    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+        super().__init__(coordinates, 2, Lance_Torpilles)
+
+    def go_to(self, x, y, z):
+        if z == 0 or z==-1:
+            super().go_to(x, y, z)
+
+
+class Fregate(Vessel):
+    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+        super().__init__(coordinates, 5, Lance_missiles_antisurface)
+
+    def go_to(self, x, y, z):
+        if z == 0 :
+            super().go_to(x, y, z)
+
+class Destroyer(Vessel):
+    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+        super().__init__(coordinates, 4, Lance_Torpilles)
+
+    def go_to(self, x, y, z):
+        if z == 0 :
+            super().go_to(x, y, z)
+
+class Aircraft(Vessel):
+    def __init__(self, coordinates: tuple, max_hits: int, weapon: Weapon):
+        super().__init__(coordinates, 1, Lance_missiles_antisurface)
+
+    def go_to(self, x, y, z):
+        if z == 1 :
+            super().go_to(x, y, z)
+
+class espace_joueur():
+    def __init__(self,x,y,z,vaisseaux):
+        self._x=x
+        if y>=0 and y<=100:
+            self._y=y
+        if z==-1 or z==0 or z==1:
+            self._z=z
+        self._vaisseaux=[]
+
+    def ajouter_vaisseau(self,vessel):
+        position_vaisseau=vessel.get_coordinates()
+
+        somme_coups=0
+        for i in self.vaisseaux:
+            somme_coups= somme_coups+ i._max_hits
+
+        for i in self.vaisseaux:
+
+            if i.get_coordinates!=position_vaisseau and somme_coups<=22:
+                self.vaisseaux.append(vessel)
+    def recevoir(self,x,y,z):
+        for i in self.vaisseaux:
+            if (x,y,z)== i.get_coordinates():
+                return True
+        return False
+
+vaisseau1=Cruiser((5,5,0))
+champ_bataille_1=espace_joueur(10,10,1)
+champ_bataille_1.ajouter_vaisseau(vaisseau1)
+print(champ_bataille_1.vaisseaux)
