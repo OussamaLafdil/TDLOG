@@ -116,4 +116,3 @@ print(espace1.recevoir(6,5,0))
 print(espace1.recevoir(6,1,0))
 print(espace1._vaisseaux)
 
-lll
