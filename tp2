@@ -8,6 +8,7 @@ from TP1 import OutOfRangeError
 
 class DestroyedError(Exception):
     pass
+    
 
 class Vessel:
     def __init__(self, coordinates: tuple, max_hits: int,weapon:Weapon):
