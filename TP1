@@ -14,9 +14,8 @@ class Weapon:
             raise NoAmmunitionError
 
 class Lance_missiles_antisurface(Weapon):
-    def __init__(self):
-        self._ammunition= 3
-        self._range= 30
+    def __init__(self, ammunition=40, range=30):
+        super().__init__(ammunition, range)
 
 
     def fire_at(self, x: int, y: int,z : int):
@@ -30,9 +29,8 @@ class Lance_missiles_antisurface(Weapon):
 
 
 class Lance_missiles_antiair(Weapon):
-    def __init__(self):
-        self._ammunition= 50
-        self._range= 40
+    def __init__(self, ammunition=50, range=40):
+        super().__init__(ammunition, range)
 
 
     def fire_at(self, x: int, y: int, z: int): 
@@ -46,9 +44,8 @@ class Lance_missiles_antiair(Weapon):
 
 
 class Lance_Torpilles(Weapon):
-    def __init__(self):
-        self._ammunition= 15
-        self._range= 20
+    def __init__(self, ammunition=15, range=20):
+        super().__init__(ammunition, range)
 
 
     def fire_at(self, x: int, y: int, z: int):
@@ -62,9 +59,7 @@ class Lance_Torpilles(Weapon):
 
 arme1=Lance_missiles_antisurface()
 arme1.fire_at(1,4,0)
-arme1.fire_at(1,4,0)
-arme1.fire_at(1,4,0)
-arme1.fire_at(1,4,0)
 
 print(arme1._ammunition)
 
+arme1.fire_at(1,4,5)
