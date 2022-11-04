@@ -1,4 +1,4 @@
-from math import sqrt
+from math import sqrt 
 
 from TP1 import Weapon
 from TP1 import Lance_missiles_antisurface
