@@ -1,5 +1,5 @@
 class NoAmmunitionError(Exception):
-    pass
+    pass 
 class OutOfRangeError(Exception):
     pass
 
